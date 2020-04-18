@@ -37,12 +37,23 @@ def sortedEigens(ev):
     return eigenvalues, eigenvectors.transpose()
 
 
-def plotWavefunction(system):
+def plotWavefunction(system, K):
 
     hamiltonian_matrix = system.hamiltonian_submatrix(sparse = True)
-    eigenvalues, eigenvectors = sortedEigens(sla.eigsh(hamiltonian_matrix.tocsc(), k = 20, sigma = 0))
+    eigenvalues, eigenvectors = sortedEigens(sla.eigsh(hamiltonian_matrix.tocsc(), K, sigma = 0))
     a = 0
-    for k in range(20):
+    for k in range(K):
         a = a + np.abs(eigenvectors[:,k])**2
 
     kwant.plotter.map(system, a ,colorbar = False, oversampling = 3)
+
+
+def plotBandstructure(flead, momenta):
+    bands = kwant.physics.Bands(flead)
+    energies = [bands(k) for k in momenta]
+
+    pyplot.figure()
+    pyplot.plot(momenta, energies)
+    pyplot.xlabel("momentum [(lattice constant)^-1]")
+    pyplot.ylabel("energy [t]")
+    pyplot.show()
