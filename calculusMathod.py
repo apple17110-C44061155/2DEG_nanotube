@@ -15,7 +15,11 @@ def computeEigenvalues(system):
     print(eigenvalues.real)
 
 
-def plotConductance(system, energies):
+def plotConductance(system, energyMaxmum):
+
+    energyMaxmum = energyMaxmum
+    r = energyMaxmum / 0.01
+    energies = [-1 * energyMaxmum +  n * 0.01 for n in range(int(2 * r))]
 
     data = []
 
@@ -48,12 +52,14 @@ def plotWavefunction(system, K):
     kwant.plotter.map(system, a ,colorbar = False, oversampling = 3)
 
 
-def plotBandstructure(flead, momenta):
+def plotBandstructure(flead, momenta, energyMaxmum):
+
     bands = kwant.physics.Bands(flead)
     energies = [bands(k) for k in momenta]
 
     pyplot.figure()
     pyplot.plot(momenta, energies)
+    pyplot.ylim(-0.005, energyMaxmum)
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()

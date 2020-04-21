@@ -44,14 +44,14 @@ def makeSystem(length = 50, width = 100):
     return system, lead
 
 
-def main():
+def main(length = 50, width = 25, energyMaxmum = 0.2):
 
-    system, lead = makeSystem(100, 100)
+    system, lead = makeSystem(length, width)
     system = system.finalized()
     kwant.plot(system)
 
     energies = [-2 * 0.1 + 0.1 * (4 / 100) * i for i in range(100)]
-    cM.plotConductance(system, energies)
+    cM.plotConductance(system, energyMaxmum)
 
     cM.plotWavefunction(system, 1)
 
@@ -59,7 +59,7 @@ def main():
 
     momenta = [-2 + 0.02 * i for i in range(201)]
     lead = lead.finalized()
-    cM.plotBandstructure(lead, momenta)
+    cM.plotBandstructure(lead, momenta, energyMaxmum)
 
 
 
