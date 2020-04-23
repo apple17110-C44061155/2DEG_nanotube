@@ -7,6 +7,7 @@ from matplotlib import pyplot
 import scipy.sparse.linalg as sla
 import kwant
 import numpy as np
+import scipy
 
 
 def computeEigenvalues(system):
@@ -63,3 +64,21 @@ def plotBandstructure(flead, momenta, energyMaxmum):
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()
+
+def plotDensityOfStateMethod(lableToData, energyMaxmum):
+
+    pyplot.figure(figsize=(5, 4))
+    x, y = lableToData
+    pyplot.plot(x, y)
+    pyplot.xlim(0, energyMaxmum)
+    pyplot.xlabel("energy [t]")
+    pyplot.ylabel("DoS [a.u.]")
+    pyplot.show()
+
+
+def plotDOS(finalizeSystem, energyMaxmum):
+
+    spectrum = kwant.kpm.SpectralDensity(finalizeSystem)
+    energies, densities = spectrum()
+
+    plotDensityOfStateMethod((energies, densities), energyMaxmum)

@@ -6,14 +6,15 @@ This is a model of 2DEG nanotube
 import kwant
 import calculusMathod as cM
 
+hoppingElement = 1
+
+
 def makeSystem(length = 50, width = 100):
 
     # variables scope
 
-    hoppingElement = 1
-
-
     # model building scope
+    global lattice
     system = kwant.builder.Builder()
     lattice = kwant.lattice.square(a = 1)
 
@@ -24,31 +25,41 @@ def makeSystem(length = 50, width = 100):
 
 
     # nanotube modeling scope
-
+    global tubeHoping
     tubeHoping = kwant.builder.HoppingKind((length-1 , 0), lattice)
     system[tubeHoping] = -1 * hoppingElement
 
-    # Lead building scope
+
+    return system
+
+
+def makeLead(length = 50, width = 100):
+
+    #Lead building scope
     lead = kwant.builder.Builder(kwant.lattice.TranslationalSymmetry((0, 1)))
     lead[(lattice(x, 0) for x in range(length))] = 4 * hoppingElement
     lead[(lattice.neighbors())] = -1 * hoppingElement
     lead[tubeHoping] = -1 * hoppingElement
 
 
+    return lead
 
-    # lead attaching scope
+
+def main(length = 50, width = 25, energyMaxmum = 4):
+
+    system = makeSystem(length, width)
+    lead = makeLead(length, width)
+
     system.attach_lead(lead)
     system.attach_lead(lead.reversed())
 
-
-    return system, lead
-
-
-def main(length = 50, width = 25, energyMaxmum = 0.2):
-
-    system, lead = makeSystem(length, width)
     system = system.finalized()
     kwant.plot(system)
+
+    systemToDOS = makeSystem(length, width)
+    systemToDOS = systemToDOS.finalized()
+
+    cM.plotDOS(systemToDOS, energyMaxmum)
 
     energies = [-2 * 0.1 + 0.1 * (4 / 100) * i for i in range(100)]
     cM.plotConductance(system, energyMaxmum)
