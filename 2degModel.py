@@ -5,6 +5,7 @@ This is a model of 2DEG nanotube
 """
 import kwant
 import calculusMathod as cM
+import openpyxl
 
 hoppingElement = 1
 
@@ -45,7 +46,7 @@ def makeLead(length = 50, width = 100):
     return lead
 
 
-def main(length = 50, width = 25, energyMaxmum = 4):
+def main(length = 10, width = 5, energyMaxmum = 7):
 
     system = makeSystem(length, width)
     lead = makeLead(length, width)
@@ -54,6 +55,7 @@ def main(length = 50, width = 25, energyMaxmum = 4):
     system.attach_lead(lead.reversed())
 
     system = system.finalized()
+
     kwant.plot(system)
 
     systemToDOS = makeSystem(length, width)
@@ -62,7 +64,7 @@ def main(length = 50, width = 25, energyMaxmum = 4):
     cM.plotDOS(systemToDOS, energyMaxmum)
 
     energies = [-2 * 0.1 + 0.1 * (4 / 100) * i for i in range(100)]
-    cM.plotConductance(system, energyMaxmum)
+    #energies, data = cM.plotConductance(system, energyMaxmum)
 
     cM.plotWavefunction(system, 1)
 
@@ -70,7 +72,22 @@ def main(length = 50, width = 25, energyMaxmum = 4):
 
     momenta = [-2 + 0.02 * i for i in range(201)]
     lead = lead.finalized()
+
     cM.plotBandstructure(lead, momenta, energyMaxmum)
+
+
+    bandenergy = cM.BandEnergy(lead, 5)
+
+
+    Workbook = openpyxl.Workbook()
+    worksheet = Workbook.get_active_sheet()
+    #worksheet.append(energies)
+    #worksheet.append(data)
+    for i in range(9):
+        worksheet.append(bandenergy[i])
+
+
+    Workbook.save("Band.xlsx")
 
 
 

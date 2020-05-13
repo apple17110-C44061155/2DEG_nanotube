@@ -20,7 +20,7 @@ def plotConductance(system, energyMaxmum):
 
     energyMaxmum = energyMaxmum
     r = energyMaxmum / 0.01
-    energies = [-1 * energyMaxmum +  n * 0.01 for n in range(int(2 * r))]
+    energies = [-1  +  n * 0.01 for n in range(int(r))]
 
     data = []
 
@@ -34,6 +34,7 @@ def plotConductance(system, energyMaxmum):
     pyplot.xlabel("energy [t]")
     pyplot.ylabel("conductance [e^2/h]")
     pyplot.show()
+    return energies, data
 
 
 def sortedEigens(ev):
@@ -57,13 +58,18 @@ def plotBandstructure(flead, momenta, energyMaxmum):
 
     bands = kwant.physics.Bands(flead)
     energies = [bands(k) for k in momenta]
+    ###
 
+    ###
     pyplot.figure()
     pyplot.plot(momenta, energies)
     pyplot.ylim(-0.005, energyMaxmum)
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()
+
+
+
 
 def plotDensityOfStateMethod(lableToData, energyMaxmum):
 
@@ -82,3 +88,17 @@ def plotDOS(finalizeSystem, energyMaxmum):
     energies, densities = spectrum()
 
     plotDensityOfStateMethod((energies, densities), energyMaxmum)
+
+
+def BandEnergy(flead, momentum):
+
+    momenta = [-momentum + 0.02 * i for i in range(momentum* 100)]
+    bands = kwant.physics.Bands(flead)
+    bandEnergy = []
+    for subscription in range(10):
+        bandEnergy.append([bands(k)[subscription] for k in momenta])
+
+    #bandEnergy1 = [bands(k)[1] for  k in momenta]
+
+
+    return bandEnergy
