@@ -46,7 +46,7 @@ def makeLead(length = 50, width = 100):
     return lead
 
 
-def main(length = 10, width = 5, energyMaxmum = 7):
+def main(length = 15, width = 2, energyMaxmum = 20):
 
     system = makeSystem(length, width)
     lead = makeLead(length, width)
@@ -64,26 +64,27 @@ def main(length = 10, width = 5, energyMaxmum = 7):
     cM.plotDOS(systemToDOS, energyMaxmum)
 
     energies = [-2 * 0.1 + 0.1 * (4 / 100) * i for i in range(100)]
-    #energies, data = cM.plotConductance(system, energyMaxmum)
+    energies, data = cM.plotConductance(system, energyMaxmum)
 
     cM.plotWavefunction(system, 1)
 
     cM.computeEigenvalues(system)
 
-    momenta = [-2 + 0.02 * i for i in range(201)]
+    momentum = 6.28
+    momenta = [-momentum + 0.002 * i for i in range(int(momentum*1000) + 1)]
     lead = lead.finalized()
 
     cM.plotBandstructure(lead, momenta, energyMaxmum)
 
 
-    bandenergy = cM.BandEnergy(lead, 5)
+    bandenergy = cM.BandEnergy(lead, 6.28, length)
 
 
     Workbook = openpyxl.Workbook()
-    worksheet = Workbook.get_active_sheet()
-    #worksheet.append(energies)
-    #worksheet.append(data)
-    for i in range(9):
+    worksheet = Workbook.create_sheet("length = 15")
+    worksheet.append(energies)
+    worksheet.append(data)
+    for i in range(length):
         worksheet.append(bandenergy[i])
 
 

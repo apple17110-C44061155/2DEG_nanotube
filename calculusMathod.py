@@ -67,6 +67,7 @@ def plotBandstructure(flead, momenta, energyMaxmum):
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()
+    print(bands(0))
 
 
 
@@ -90,12 +91,12 @@ def plotDOS(finalizeSystem, energyMaxmum):
     plotDensityOfStateMethod((energies, densities), energyMaxmum)
 
 
-def BandEnergy(flead, momentum):
+def BandEnergy(flead, momentum, length):
 
-    momenta = [-momentum + 0.02 * i for i in range(momentum* 100)]
+    momenta = [-momentum + 0.002 * i for i in range(int(momentum* 1000) + 1)]
     bands = kwant.physics.Bands(flead)
     bandEnergy = []
-    for subscription in range(10):
+    for subscription in range(length):
         bandEnergy.append([bands(k)[subscription] for k in momenta])
 
     #bandEnergy1 = [bands(k)[1] for  k in momenta]
