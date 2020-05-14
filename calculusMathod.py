@@ -91,9 +91,18 @@ def plotDOS(finalizeSystem, energyMaxmum):
     plotDensityOfStateMethod((energies, densities), energyMaxmum)
 
 
+def getDOS(finalizeSystem):
+
+    spectrum = kwant.kpm.SpectralDensity(finalizeSystem)
+    energies, densities = spectrum()
+
+    return energies, densities
+
+
+
 def BandEnergy(flead, momentum, length):
 
-    momenta = [-momentum + 0.002 * i for i in range(int(momentum* 1000) + 1)]
+    momenta = [-momentum + 0.02 * i for i in range(int(momentum* 100) + 1)]
     bands = kwant.physics.Bands(flead)
     bandEnergy = []
     for subscription in range(length):
