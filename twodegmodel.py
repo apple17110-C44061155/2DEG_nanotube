@@ -73,12 +73,12 @@ def main(length = 5, width =5 , energyMaxmum = 10):
 
 
     energies = [-2 * 0.1 + 0.1 * (4 / 100) * i for i in range(100)]
-    energies, data = cM.plotConductance(system, energyMaxmum)
+    cM.plotConductance(system, energyMaxmum)
 
 
-    #cM.plotWavefunction(system, 1)
+    cM.plotWavefunction(system, 1)
 
-    #cM.computeEigenvalues(system)
+    cM.computeEigenvalues(system)
 
     momentum = 6.28
     momenta = [-momentum + 0.02 * i for i in range(int(momentum*100) + 1)]
@@ -92,8 +92,7 @@ def main(length = 5, width =5 , energyMaxmum = 10):
 
     Workbook = openpyxl.Workbook()
     worksheet = Workbook.create_sheet("length = 15")
-    worksheet.append(energies)
-    worksheet.append(data)
+
     for i in range(length):
         worksheet.append(bandenergy[i])
 

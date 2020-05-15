@@ -20,7 +20,7 @@ def plotConductance(system, energyMaxmum):
 
     energyMaxmum = energyMaxmum
     r = energyMaxmum / 0.01
-    energies = [-1  +  n * 0.01 for n in range(int(r))]
+    energies = [-1  +  n * 0.01 for n in range(int(r) + 200)]
 
     data = []
 
@@ -34,6 +34,19 @@ def plotConductance(system, energyMaxmum):
     pyplot.xlabel("energy [t]")
     pyplot.ylabel("conductance [e^2/h]")
     pyplot.show()
+
+
+
+def getConductance(system, energyMaxmum):
+
+    r = energyMaxmum / 0.01
+    energies =[-1 + n * 0.01 for n in range(int(r) + 200)]
+    data = []
+
+    for energy in energies:
+        smatrix = kwant.solvers.default.smatrix(system, energy)
+        data.append(smatrix.transmission(0, 1))
+
     return energies, data
 
 
@@ -67,7 +80,19 @@ def plotBandstructure(flead, momenta, energyMaxmum):
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()
-    print(bands(0))
+    print(bands(3.14))
+
+
+def getBandStructure(flead, momentum, length):
+
+    momenta = [-momentum + 0.02 * i for i in range(int(momentum*100) + 1)]
+    bands = kwant.physics.Bands(flead)
+
+    band = []
+    for subscription in range(length):
+        band.append([bands(k)[subscription] for k in momenta])
+
+    return momenta, band
 
 
 
@@ -95,6 +120,7 @@ def getDOS(finalizeSystem):
 
     spectrum = kwant.kpm.SpectralDensity(finalizeSystem)
     energies, densities = spectrum()
+    densities = np.real(densities)
 
     return energies, densities
 
