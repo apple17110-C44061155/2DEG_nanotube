@@ -12,7 +12,7 @@ import scipy
 
 def computeEigenvalues(system):
     sparseMatrix = system.hamiltonian_submatrix(sparse = True)
-    eigenvalues = sla.eigs(sparseMatrix, 5)[0]
+    eigenvalues = sla.eigs(sparseMatrix, 200)[0]
     print(eigenvalues.real)
 
 

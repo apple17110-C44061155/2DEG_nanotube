@@ -16,6 +16,7 @@ def main(length = 200, width = 50, energyMaxmum = 20, name = "length=200, width=
     system.attach_lead(lead.reversed())
 
     system = system.finalized()
+    """
     kwant.plot(system)
 
     energies, densities = cm.getDOS(system)
@@ -41,6 +42,8 @@ def main(length = 200, width = 50, energyMaxmum = 20, name = "length=200, width=
     print("OK")
 
     workbook.save(name)
+    """
+    cm.computeEigenvalues(system)
 
 if __name__ == '__main__':
     main()
