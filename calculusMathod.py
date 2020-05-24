@@ -80,7 +80,7 @@ def plotBandstructure(flead, momenta, energyMaxmum):
     pyplot.xlabel("momentum [(lattice constant)^-1]")
     pyplot.ylabel("energy [t]")
     pyplot.show()
-    print(bands(3.14))
+    print(bands(0))
 
 
 def getBandStructure(flead, momentum, length):
