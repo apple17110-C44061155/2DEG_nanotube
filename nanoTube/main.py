@@ -10,20 +10,23 @@ def momenta(momentum = 3.14):
 
 
 def main(length, width):
-
+    """
     workbook = openpyxl.Workbook()
-
+    """
     system = nanotube(length, width)
+    """
     name = system.name + ".xlsx"
 
     lead = system.makeLead()
     lead = lead.finalized()
 
     system = system.addLead()
+    """
     system = system.finalized()
 
     kwant.plot(system)
 
+    """
     calculusMathod.getDOS(system, workbook)
     calculusMathod.getBandStructure(lead, momenta(3.14), length, workbook)
     calculusMathod.getConductance(system, 10, workbook)
@@ -32,6 +35,7 @@ def main(length, width):
 
 
     workbook.save(name)
+    """
 
 
 main(2, 5)

@@ -1,7 +1,7 @@
 import kwant
 
 
-class nanotube:
+class nanotube():
 
     def __init__(self, length, width):
         self.length = length
@@ -49,7 +49,13 @@ class nanotube:
         return system
 
 
-    def finalized(system):
+    def finalized(self):
+
+        system = self.__makeSystem()
+        lead = self.makeLead()
+
+        system.attach_lead(lead)
+        system.attach_lead(lead.reversed())
 
         system = system.finalized()
         return system
